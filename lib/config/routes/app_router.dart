@@ -29,10 +29,7 @@ class AppRouter {
           path: splash,
           builder: (context, state) => const SplashScreen(),
         ),
-        GoRoute(
-          path: login,
-          builder: (context, state) => const LoginScreen(),
-        ),
+        GoRoute(path: login, builder: (context, state) => const LoginScreen()),
         GoRoute(
           path: register,
           builder: (context, state) => const RegisterScreen(),
@@ -43,9 +40,7 @@ class AppRouter {
         ),
       ],
       errorBuilder: (context, state) => Scaffold(
-        body: Center(
-          child: Text('Route not found: ${state.uri.toString()}'),
-        ),
+        body: Center(child: Text('Route not found: ${state.uri.toString()}')),
       ),
     );
   });
@@ -66,15 +61,16 @@ class RouterNotifier extends ChangeNotifier {
 
   String? redirect(BuildContext context, GoRouterState state) {
     final authState = _ref.read(authStateProvider);
-    
+
     // We only redirect if we have data (either logged in or not)
     return authState.when(
       data: (data) {
         final isLoggedIn = data.session != null;
-        final isLoggingIn = state.matchedLocation == AppRouter.login || 
-                           state.matchedLocation == AppRouter.register;
+        final isLoggingIn =
+            state.matchedLocation == AppRouter.login ||
+            state.matchedLocation == AppRouter.register;
         final isSplashing = state.matchedLocation == AppRouter.splash;
-        
+
         if (isSplashing) {
           return null; // Always show splash screen first
         }
@@ -93,7 +89,11 @@ class RouterNotifier extends ChangeNotifier {
         return null;
       },
       loading: () => null, // Stay on current screen while loading
-      error: (_, __) => AppRouter.login, // Go to login on error
+      error: (_, __) {
+        // If splash is being shown, don't redirect away.
+        final isSplashing = state.matchedLocation == AppRouter.splash;
+        return isSplashing ? null : AppRouter.login;
+      },
     );
   }
 }

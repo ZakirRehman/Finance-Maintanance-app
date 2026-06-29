@@ -23,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Future<void> _checkAuth() async {
     // Wait for animation and branding visibility
     await Future.delayed(const Duration(seconds: 3));
-    
+
     if (!mounted) return;
 
     // Manually trigger a redirect check if GoRouter hasn't already
@@ -45,48 +45,53 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/logo.png',
-                width: 180,
-                height: 180,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(
-                    Icons.card_giftcard,
-                    size: 60,
-                    color: AppColors.luxuryGold,
-                  );
-                },
-              )
-              .animate(onPlay: (controller) => controller.repeat(reverse: true))
-              .scale(
-                begin: const Offset(1.0, 1.0),
-                end: const Offset(1.05, 1.05),
-                duration: 2000.ms,
-                curve: Curves.easeInOut,
-              )
-              .animate()
-              .fade(duration: 800.ms),
-              
+                    'assets/images/logo.png',
+                    width: 180,
+                    height: 180,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.card_giftcard,
+                        size: 60,
+                        color: AppColors.luxuryGold,
+                      );
+                    },
+                  )
+                  .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true),
+                  )
+                  .scale(
+                    begin: const Offset(1.0, 1.0),
+                    end: const Offset(1.05, 1.05),
+                    duration: 2000.ms,
+                    curve: Curves.easeInOut,
+                  )
+                  .animate()
+                  .fade(duration: 800.ms),
+
               const SizedBox(height: 10),
-              
+
               Text(
-                'INBISATs',
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                    'INBISATs',
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       color: AppColors.luxuryGold,
                       letterSpacing: 4,
                       fontWeight: FontWeight.bold,
                     ),
-              ).animate().fade(delay: 500.ms, duration: 1000.ms).slideY(begin: 0.2, end: 0),
-              
+                  )
+                  .animate()
+                  .fade(delay: 500.ms, duration: 1000.ms)
+                  .slideY(begin: 0.2, end: 0),
+
               const SizedBox(height: 12),
-              
+
               Text(
                 '“Crafting Memories, One Gift at a Time”',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 1,
-                    ),
+                  color: AppColors.textSecondary,
+                  fontStyle: FontStyle.italic,
+                  letterSpacing: 1,
+                ),
               ).animate().fade(delay: 1000.ms, duration: 1000.ms),
             ],
           ),
